@@ -1,0 +1,142 @@
+// React component Model
+// -->Container
+// ---->ButtonSection
+// ------>AddButton
+// ---->RecipeSection
+// ------>Recipe 
+  
+var Container = React.createClass({
+  render: function() {
+    return (
+      <div className="container-fluid">
+        <ButtonSection />
+        <RecipeSection />
+      </div>
+    );
+  }
+});
+
+var ButtonSection = React.createClass({
+  addRecipe: function() {
+    
+  },
+  render: function() {
+    return (
+      <div className="row buttonSect">
+        <div className="col-xs-8">
+          <h2 className="heading">Recipe Box</h2>
+        </div>
+        <div className="col-xs-4">
+          <button className="addBtn bs ts" onClick={this.addRecipe}>
+            Add recipe
+          </button>
+        </div>
+      </div>
+    );
+  }
+});
+
+var RecipeSection = React.createClass({
+  getInitialState: function() {
+    return {recipies: [{
+      id: 1,
+      name: "Apple Pie",
+      ingredients: ["Apple", "Flour", "Sugar", "Cream"],
+      showRecipe: true
+    },{
+      id: 2,
+      name: "Another Apple Pie",
+      ingredients: ["Apple", "Flour", "Sugar", "Cream"],
+      showRecipe: true
+    }
+    ]};
+  },
+  removeRecipe: function(id) {
+    var stateVar = this.state.recipies;
+    stateVar = stateVar.map(function(elem){
+      if(elem.id.toString() === id)
+        elem.showRecipe = false;
+      return elem;
+    });
+    this.setState({recipies: stateVar});
+  },
+  alotId: function() {
+    var date = new Date();
+    return date.getTime(); 
+  },
+  addRecipe: function(name, ingredients) {
+    var id = this.alotId();
+    var state = this.state.recipies;
+    state.push({id: id, showRecipe: true, name: name, ingredients: ingredients});
+    this.setState({recipes: state});
+  },
+  render: function() {
+    console.log("rendering recipe sect");
+    var recipies = [];
+    var parent_this = this;
+    this.state.recipies.forEach(function(elem){
+      if(elem.showRecipe)
+        recipies.push(<Recipe id={elem.id} name={elem.name} ingredients={elem.ingredients} remove={parent_this.removeRecipe}/>);
+    });
+    return (
+      <div className="recipeSect" id="recipeSect">
+        {recipies}
+      </div>
+    );
+  }
+});
+
+var Recipe = React.createClass({
+  handleClickOnMain: function(e) {
+    if(e.target.classList.contains("deleteBtn")) {
+      return;
+    }
+    var condition = e.currentTarget.classList.contains('opened'); 
+    $(".opened").removeClass("opened");
+    if(!condition)
+      e.currentTarget.classList.add("opened");
+  },
+  remove : function(e){
+    this.props.remove(e.currentTarget.parentNode.parentNode.id);
+  },
+  render: function() {
+    return (
+      <div className="row recipe ts" onClick={this.handleClickOnMain} id={this.props.id}>
+        <div className="col-xs-12 recipeHeader ts">
+          <h3 className="recipeName">
+            {this.props.name}
+          </h3>
+          <span data-toggle="tooltip" className="btn editBtn ts glyphicon glyphicon-pencil" title="Edit" data-placement="top"></span>
+          <span className="btn deleteBtn ts glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete" data-placement="top" onClick={this.remove}></span>
+        </div>
+        <div className="col-xs-12 recipeContent ts">
+          <h4>Ingridients:</h4>
+          <Ingredients data={this.props.ingredients}/>
+        </div>        
+      </div>
+    );
+  }
+});
+
+var Ingredients = React.createClass({
+  render: function() {
+    var ingredients = [];
+    this.props.data.forEach(function(elem) {
+      ingredients.push(<button className="ingredients">elem</button>);
+    });
+    return (
+      <div className="ingridientsList">
+        {ingredients}
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+<Container />,
+document.getElementById("app")
+);
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
