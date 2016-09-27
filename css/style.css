@@ -4,13 +4,13 @@ html {
 
 * {
   color: #222;
-  letter-spacing: 1rem;
   word-spacing: 2rem;
 }
 
 body {
   overflow-x: hidden;
   background: #efece6;
+  position: relative;
 }
 
 .container-fluid {
@@ -28,7 +28,7 @@ h3, h2, h4 {
   margin: 10rem auto;
 }
 
-p, h4 {
+p, h4, label, input {
   font-family: "Source Sans Pro", sans-serif;
 }
 
@@ -130,7 +130,7 @@ h4 {
   font-weight: 700;
 }
 
-.ingredients {
+.ingredients, .addIngBtn {
   font-size: 14rem;
   text-transform: uppercase;
   font-weight: 700;
@@ -160,9 +160,6 @@ h4 {
 }
 .recipe.opened .recipeHeader {
   z-index: 99;
-}
-.recipe.opened .recipeContent {
-  top: 0;
 }
 
 .bs {
@@ -194,11 +191,80 @@ h4 {
     font-size: 0.7px;
   }
 }
-.recipeContent {
-  position: relative;
-  top: 0px;
-}
-
 .opened > .recipeContent {
   display: block;
+}
+
+.recipeModal {
+  z-index: 999999;
+  background: #efece6;
+  width: 80%;
+  max-width: 650px;
+}
+
+.modalBackground {
+  width: 100vw;
+  height: 100vh;
+  background: #F5F3EF;
+  opacity: 0.8;
+}
+
+.modalBackground, .recipeModal {
+  z-index: 9999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input {
+  width: 100%;
+  border: none;
+  background: #e3ddd2;
+  color: #957029;
+  padding: 15px;
+  font-size: 14px;
+  outline: none;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #222;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.nameSect, .ingredientsSect {
+  margin: 30px auto 30px auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.saveBtn, .closeBtn {
+  border: none;
+  width: 50%;
+  border: solid 2px #ccc1ac;
+  border-bottom: none;
+  border-left: none;
+  padding: 15px 10px;
+  color: #957029;
+  text-transform: uppercase;
+  font-size: 14px;
+  background: #e3ddd2;
+  position: relative;
+  bottom: 0;
+  outline: none;
+}
+
+.closeBtn {
+  border-right: none;
+}
+
+.mainModal {
+  opacity: 0;
+}
+
+.modalBody {
+  overflow-y: auto;
 }
