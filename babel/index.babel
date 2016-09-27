@@ -4,15 +4,15 @@
 // ------>AddButton
 // ---->ModalSection
 // ---->RecipeSection
-// ------>Recipe 
+// ------>Recipe
 // -------->Ingredients
-  
+
 var App = React.createClass({
   getInitialState: function() {
     return {recipies: [], localKeys: localStorage.arshdkhn1keys ? localStorage.arshdkhn1keys: "Apple pie|Another Apple pie", showModal: false, isEditing: false, editingRecipeId: null};
   },
   alotId: function() {
-    return Math.floor((Math.random() * 1000000000) + 1);; 
+    return Math.floor((Math.random() * 1000000000) + 1);;
   },
   removeRecipe: function(id) {
     var stateVar = this.state.recipies;
@@ -24,9 +24,9 @@ var App = React.createClass({
       }
       return elem;
     });
-    
+
     var keys = this.state.localKeys.split("|");
-    
+
     var index = keys.indexOf(targetName);
     console.log("Keys", keys, "index", index);
     if(index !== -1) {
@@ -66,25 +66,25 @@ var App = React.createClass({
     }, 400);
   },
   closeAndSave: function(name, ingredients, localKeys) {
-    
+
     var parent_this = this;
     var id = this.alotId();
     var state = this.state.recipies;
     state.push({id: id, showRecipe: true, name: name, ingredients: ingredients});
-    
+
     $(".recipeModal").addClass("mainModal");
     $(".modalBackground").addClass("mainModal");
-    
+
     setTimeout(function(){
       if(localKeys)
-        
+
         parent_this.setState({recipies: state, localKeys: localKeys, showModal: false});
       else
         parent_this.setState({recipies: state, showModal: false});
     }, 400);
   },
   getRecipeObj: function(name, ingredients) {
-    return ({id: this.alotId(), showRecipe: true, name: name, ingredients: ingredients});  
+    return ({id: this.alotId(), showRecipe: true, name: name, ingredients: ingredients});
   },
   getLocalStorageData: function() {
     var local = localStorage;
@@ -95,7 +95,7 @@ var App = React.createClass({
       var name = elem;
       if(local[elem]) {
         var ingredients = local[elem].split(",");
-        state.push(parent_this.getRecipeObj(name, ingredients));  
+        state.push(parent_this.getRecipeObj(name, ingredients));
       }
     });
     this.setState({recipies: state});
@@ -133,7 +133,7 @@ var App = React.createClass({
     return (
       <div className="container-fluid">
         <ButtonSection openModal={this.openModal}/>
-        <ModalSection showModal={this.state.showModal} closeModal={this.closeModal} saveClick={this.state.isEditing ? 
+        <ModalSection showModal={this.state.showModal} closeModal={this.closeModal} saveClick={this.state.isEditing ?
         this.editAndSave : this.closeAndSave} isEditingGoingOn={this.state.isEditing}/>
         <RecipeSection editRecipe={this.editModal} recipies={this.state.recipies} removeRecipe={this.removeRecipe} />
       </div>
@@ -159,7 +159,7 @@ var ButtonSection = React.createClass({
 });
 
 
-var ModalSection = React.createClass({ 
+var ModalSection = React.createClass({
   editRecipe: function() {
     var name = document.getElementById("nameInput").value ;
     var ingredients = document.getElementById("ingredientsInput").value;
@@ -194,7 +194,7 @@ var ModalSection = React.createClass({
             <button className="closeBtn" onClick={this.props.closeModal}>Close</button>
           </div>
     </div></div> : null;
-    return(<div>{modal}</div>);    
+    return(<div>{modal}</div>);
   }
 });
 
@@ -229,7 +229,7 @@ var Recipe = React.createClass({
     if(e.target.classList.contains("deleteBtn") || e.target.classList.contains("editBtn")) {
       return;
     }
-    var condition = e.currentTarget.classList.contains('opened'); 
+    var condition = e.currentTarget.classList.contains('opened');
     $(".opened").removeClass("opened");
     if(!condition)
       e.currentTarget.classList.add("opened");
@@ -253,7 +253,7 @@ var Recipe = React.createClass({
         <div className="col-xs-12 recipeContent">
           <h4>Ingridients:</h4>
           <Ingredients data={this.props.ingredients}/>
-        </div>        
+        </div>
       </div>
     );
   }
@@ -277,7 +277,3 @@ ReactDOM.render(
 <App />,
 document.getElementById("app")
 );
-
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});

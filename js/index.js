@@ -331,7 +331,3 @@ var Ingredients = React.createClass({
 });
 
 ReactDOM.render(React.createElement(App, null), document.getElementById("app"));
-
-$(document).ready(function () {
-  $('[data-toggle="tooltip"]').tooltip();
-});
